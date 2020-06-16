@@ -1,3 +1,4 @@
+using CHelper.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +15,7 @@ namespace CHelper
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -22,6 +24,9 @@ namespace CHelper
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            // Dependency injection, change MockCHelperRepo to a database to change data source
+            services.AddScoped<ICHelperRepo, MockCHelperRepo>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
