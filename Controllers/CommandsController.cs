@@ -10,7 +10,15 @@ namespace CHelper.Controllers
     [ApiController]
     public class CommandsController :  ControllerBase
     {
-        private readonly MockCHelperRepo _repository = new MockCHelperRepo();
+        private readonly ICHelperRepo _repository;
+
+        public CommandsController(ICHelperRepo repository)
+        {
+            _repository = repository;
+        }
+
+
+        //private readonly MockCHelperRepo _repository = new MockCHelperRepo();
 
         //GET api/commands
         [HttpGet]
