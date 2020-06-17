@@ -1,3 +1,5 @@
+using System;
+using AutoMapper;
 using CHelper.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +32,11 @@ namespace CHelper
 
             services.AddControllersWithViews();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             // Dependency injection, change MockCHelperRepo to a database to change data source
-            services.AddScoped<ICHelperRepo, MockCHelperRepo>();
+            //services.AddScoped<ICHelperRepo, MockCHelperRepo>();
+            services.AddScoped<ICHelperRepo, SqlCHelperRepo>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

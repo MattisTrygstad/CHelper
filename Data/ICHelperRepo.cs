@@ -6,8 +6,10 @@ namespace CHelper.Data
 {
     public interface ICHelperRepo
     {
-        IEnumerable<Command> GetAllCommands();
+        bool SaveChanges();
 
+        IEnumerable<Command> GetAllCommands();
         Command GetCommandById(int id);
+        void CreateCommand(Command cmd);
     }
 }
