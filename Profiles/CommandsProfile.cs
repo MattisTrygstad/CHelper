@@ -11,9 +11,8 @@ namespace CHelper.Profiles
         {
             // Source -> Destination
             CreateMap<Command, CommandReadDto>();
-
-            // Destination -> Source
-            CreateMap<CommandCreateDto, Command>(); 
+            CreateMap<CommandCreateDto, Command>();
+            CreateMap<CommandUpdateDto, Command>();
         }
     }
 }
