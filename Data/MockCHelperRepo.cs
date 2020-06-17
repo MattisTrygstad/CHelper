@@ -10,6 +10,11 @@ namespace CHelper.Data
         {
         }
 
+        public void CreateCommand(Command cmd)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Command> GetAllCommands()
         {
             var commands = new List<Command>
@@ -25,6 +30,11 @@ namespace CHelper.Data
         public Command GetCommandById(int id)
         {
             return new Command { Id = 0, Desc = "View files in directory", Line = "ls", Platform = "Ubuntu 16.04" };
+        }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
         }
     }
 }

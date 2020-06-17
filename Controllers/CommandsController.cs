@@ -21,7 +21,9 @@ namespace CHelper.Controllers
             _mapper = mapper;
         }
 
+        //Uncomment to use MockRepo
         //private readonly MockCHelperRepo _repository = new MockCHelperRepo();
+
         //GET api/commands
         [HttpGet]
         public ActionResult<IEnumerable<CommandReadDto>> GetAllCommands()
@@ -32,15 +34,30 @@ namespace CHelper.Controllers
         }
 
         //GET api/commands/{id}
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name="GetCommandById")]
         public ActionResult<CommandReadDto> GetCommandById(int id)
         {
             var commandItem = _repository.GetCommandById(id);
-            if(commandItem != null)
+            if (commandItem != null)
             {
                 return Ok(_mapper.Map<CommandReadDto>(commandItem));
             }
             return NotFound();
         }
+
+        // POST api/commands
+        [HttpPost]
+        public ActionResult<CommandReadDto> CreateCommand(CommandCreateDto commandCreateDto)
+        {
+            var commandModel = _mapper.Map<Command>(commandCreateDto);
+            _repository.CreateCommand(commandModel);
+            _repository.SaveChanges();
+
+            var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
+
+            // Returns 201 Created and specifies location attribute in header
+            return CreatedAtRoute(nameof(GetCommandById), new { id = commandReadDto.Id }, commandReadDto);
+        }
+
     }
 }
