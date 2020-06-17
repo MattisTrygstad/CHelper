@@ -34,7 +34,7 @@ namespace CHelper.Controllers
         }
 
         //GET api/commands/{id}
-        [HttpGet("{id}", Name="GetCommandById")]
+        [HttpGet("{id}", Name = "GetCommandById")]
         public ActionResult<CommandReadDto> GetCommandById(int id)
         {
             var commandItem = _repository.GetCommandById(id);
@@ -64,7 +64,7 @@ namespace CHelper.Controllers
         public ActionResult UpdateCommand(int id, CommandUpdateDto commandUpdateDto)
         {
             var commandModelFromRepo = _repository.GetCommandById(id);
-            if(commandModelFromRepo == null)
+            if (commandModelFromRepo == null)
             {
                 return NotFound();
             }
@@ -74,6 +74,21 @@ namespace CHelper.Controllers
             // Does nothing, but good practice
             _repository.UpdateCommand(commandModelFromRepo);
 
+            _repository.SaveChanges();
+
+            return NoContent();
+        }
+
+        // DELETE api/commands/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCommand(int id)
+        {
+            var commandModelFromRepo = _repository.GetCommandById(id);
+            if (commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            _repository.DeleteCommand(commandModelFromRepo);
             _repository.SaveChanges();
 
             return NoContent();
