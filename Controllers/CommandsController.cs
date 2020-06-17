@@ -8,7 +8,7 @@ namespace CHelper.Controllers
 {
     [Route("api/commands")]
     [ApiController]
-    public class CommandsController :  ControllerBase
+    public class CommandsController : ControllerBase
     {
         private readonly ICHelperRepo _repository;
 
