@@ -44,6 +44,7 @@ export const actionCreators = {
     requestWeatherForecasts: (startDateIndex: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         // Only load data if it's something we don't already have (and are not already loading)
         const appState = getState();
+        console.log("getstate forecasts " + getState().weatherForecasts);
         if (appState && appState.weatherForecasts && startDateIndex !== appState.weatherForecasts.startDateIndex) {
             fetch(`weatherforecast`)
                 .then(response => response.json() as Promise<WeatherForecast[]>)
