@@ -15,30 +15,57 @@ export interface Commands {
     platform: string;
 }
 
+export interface NewCommand {
+    desc: string;
+    line: string;
+    platform: string;
+}
+
+export interface CommandState {
+    command: NewCommand;
+}
+
+
 // -----------------
 // ACTIONS - These are serializable (hence replayable) descriptions of state transitions.
 // They do not themselves have any side-effects; they just describe something that is going to happen.
 
-interface RequestCommandsAction {
+interface RequestGetCommandsAction {
     type: 'REQUEST_COMMANDS';
 }
 
-interface ReceiveCommandsAction {
+interface ReceiveGetCommandsAction {
     type: 'RECEIVE_COMMANDS';
     commands: Commands[];
 }
 
+interface RequestAddCommandAction {
+    type: 'ADD_COMMAND';
+    command: NewCommand;
+}
+
+interface ReceiveAddCommandAction {
+    type: 'ADD_COMMAND';
+    command: NewCommand;
+}
+
+
+
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
 // declared type strings (and not any other arbitrary string).
 
-type KnownAction = RequestCommandsAction | ReceiveCommandsAction;
+type GetCommandsKnownAction = RequestGetCommandsAction | ReceiveGetCommandsAction;
+
+type AddCommandKnownAction = RequestAddCommandAction | ReceiveAddCommandAction;
+
+
 
 // ----------------
 // ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    requestCommands: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    requestCommands: (): AppThunkAction<GetCommandsKnownAction> => (dispatch, getState) => {
         // Only load data if it's something we don't already have (and are not already loading)
         const appState = getState();
         if (appState) {
@@ -51,6 +78,7 @@ export const actionCreators = {
             dispatch({ type: 'REQUEST_COMMANDS'});
         }
     }
+    addCommand: (): AppThunkAction
 };
 
 // ----------------
@@ -62,7 +90,7 @@ export const reducer: Reducer<CommandsState> = (state: CommandsState | undefined
         return unloadedState;
     }
 
-    const action = incomingAction as KnownAction;
+    const action = incomingAction as GetCommandsKnownAction;
     switch (action.type) {
         case 'REQUEST_COMMANDS':
             return {

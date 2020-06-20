@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as CommandsStore from '../store/Commands';
+import CreateNewModal from './CreateNewModal'
 
 // At runtime, Redux will merge together...
 type CommandProps =
@@ -50,6 +51,7 @@ class CHelper extends React.PureComponent<CommandProps>  {
             <React.Fragment>
                 <h1 id="tabelLabel">Commands</h1>
                 <p>A list of helpfull terminal commands.</p>
+                <CreateNewModal buttonLabel="Create new command" className="modal-dialog"/>
                 {this.renderCommandsTable()}
             </React.Fragment>
         );
